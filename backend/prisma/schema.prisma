@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Fund {
+  id              Int      @id @default(autoincrement())
+  portfolioId     Int
+  fundCode        String
+  fundName        String
+  quantity        Float
+  costDate        DateTime
+  currentPrice    Float
+  totalValue      Float?
+  currentProfit   Float?
+  currentProfitPct Float?
+  holdingDays     Int?
+  avgMonthlyReturn Float?
+  rank            Int?
+  contentNote     String?
+}
+
+model Stock {
+  id            Int      @id @default(autoincrement())
+  portfolioId   Int
+  symbol        String
+  tradeDate     DateTime
+  quantity      Float
+  buyPrice      Float
+  currentPrice  Float
+}
+
+model Currency {
+  id               Int      @id @default(autoincrement())
+  portfolioId      Int
+  tradeDate        DateTime
+  currencyCode     String
+  amount           Float
+  currentRate      Float
+  totalReturn      Float?
+  monthlyReturn    Float?
+  monthlyReturnPct Float?
+  holdingDays      Int?
+}
+
+model Deposit {
+  id           Int      @id @default(autoincrement())
+  portfolioId  Int
+  bankName     String
+  amount       Float
+  startDate    DateTime
+  endDate      DateTime
+  interestRate Float
+  currencyCode String
+}
+
+model Goal {
+  id           Int      @id @default(autoincrement())
+  portfolioId  Int
+  goalType     String   // 'portfolio_value' vs 'monthly_growth'
+  targetValue  Float
+  targetDate   DateTime
+}
